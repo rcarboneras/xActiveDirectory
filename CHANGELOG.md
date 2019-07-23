@@ -8,11 +8,6 @@
     2008 R2 or later" ([issue #399](https://github.com/PowerShell/xActiveDirectory/issues/399)).
   - Added 'about_\<DSCResource\>.help.txt' file to all resources
     ([issue #404](https://github.com/PowerShell/xActiveDirectory/issues/404)).
-  - Removed the helper function `ThrowInvalidOperationError` and
-    `ThrowInvalidArgumentError` in favor of the
-    [new helper functions for localization](https://github.com/PowerShell/DscResources/blob/master/StyleGuidelines.md#helper-functions-for-localization)
-    ([issue #316](https://github.com/PowerShell/xActiveDirectory/issues/316),
-    [issue #317](https://github.com/PowerShell/xActiveDirectory/issues/317)).
   - Fixed an issue that the helper function `Add-ADCommonGroupMember` was
     not outputting the correct group name in a verbose message and in an
     error message.
@@ -29,11 +24,21 @@
   - The default value on resource parameters are now reflected in the parameter
     descriptions in the schema.mof (so that Wiki will be updated)
     ([issue #426](https://github.com/PowerShell/xActiveDirectory/issues/426)).
+  - Removed unnecessary Script Analyzer rule overrides from tests.
   - Added new helper functions in xActiveDirectory.Common.
     - New-CimCredentialInstance
     - Add-TypeAssembly
     - New-ADDirectoryContext
-  - Removed unnecessary Script Analyzer rule overrides from tests.
+  - Changes to xActiveDirectory.Common:
+    - Removed unused parameter `ModuleName` from `Assert-MemberParameters` function.
+    - Removed unused parameter `ModuleName` from `ConvertTo-DeploymentForestMode` function.
+    - Removed unused parameter `ModuleName` from `ConvertTo-DeploymentDomainMode` function.
+    - Added function help ([issue #321](https://github.com/PowerShell/xActiveDirectory/issues/321)).
+    - Removed the helper function `ThrowInvalidOperationError` and
+      `ThrowInvalidArgumentError` in favor of the
+      [new helper functions for localization](https://github.com/PowerShell/DscResources/blob/master/StyleGuidelines.md#helper-functions-for-localization)
+      ([issue #316](https://github.com/PowerShell/xActiveDirectory/issues/316),
+      [issue #317](https://github.com/PowerShell/xActiveDirectory/issues/317)).
 - Changes to xADManagedServiceAccount
   - Added a requirement to README stating "Group Managed Service Accounts
     need at least one Windows Server 2012 Domain Controller"
@@ -44,6 +49,8 @@
 - Changes to xADOrganizationalUnit
   - Catch exception when the path property specifies a non-existing path
     ([issue #408](https://github.com/PowerShell/xActiveDirectory/issues/408)).
+  - The unit tests are using the stub classes so the tests can be run locally.
+  - Added comment-based help ([issue #339](https://github.com/PowerShell/xActiveDirectory/issues/339)).
 - Changes to xADUser
   - Fixes exception when creating a user with an empty string property
     ([issue #407](https://github.com/PowerShell/xActiveDirectory/issues/407)).
@@ -51,11 +58,15 @@
     ([issue #402](https://github.com/PowerShell/xActiveDirectory/issues/402)).
   - Fixes ChangePasswordAtLogon Property to be only set to `true` at User
     Creation ([issue #414](https://github.com/PowerShell/xActiveDirectory/issues/414)).
+  - Added comment-based help ([issue #340](https://github.com/PowerShell/xActiveDirectory/issues/340)).
 - xADDomain
   - Updated tests and replaced `Write-Error` with `throw`
     ([issue #332](https://github.com/PowerShell/xActiveDirectory/pull/332)).
 - Changes to xADRecycleBin
   - Updated tests and remove unnecessary mocks of `Write-Error`.
+  - Removed `SupportsShouldProcess` from the resource since DSC does not
+    support that interactive function ([issue #328](https://github.com/PowerShell/xActiveDirectory/issues/328)).
+  - Added comment-based help ([issue #330](https://github.com/PowerShell/xActiveDirectory/issues/330)).
 - Changes to xADServicePrincipalName
   - Minor change to the unit tests that did not correct assert the localized
     string when an account is not found.
@@ -67,11 +78,15 @@
   - Added integration tests ([issue #348](https://github.com/PowerShell/xActiveDirectory/issues/348)).
 - Changes to xWaitForADDomain
   - Added comment-based help ([issue #341](https://github.com/PowerShell/xActiveDirectory/issues/341))
-- Changes to xAdDomainController
+- Changes to xADDomainController
   - Add support for creating Read-Only Domain Controller (RODC)
     ([issue #40](https://github.com/PowerShell/xActiveDirectory/issues/40)).
     [Svilen @SSvilen](https://github.com/SSvilen)
   - Refactored unit tests for Test-TargetResource.
+- Changes to xADObjectPermissionEntry
+  - Remove remnants of the `SupportsShouldProcess` ([issue #329](https://github.com/PowerShell/xActiveDirectory/issues/329)).
+- Changes to xADDomain
+  - Added comment-based help ([issue #335](https://github.com/PowerShell/xActiveDirectory/issues/335)).
 
 ## 3.0.0.0
 

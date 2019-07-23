@@ -6,6 +6,17 @@ Import-Module -Name (Join-Path -Path $script:localizationModulePath -ChildPath '
 
 $script:localizedData = Get-LocalizedData -ResourceName 'MSFT_xADRecycleBin'
 
+<#
+    .SYNOPSIS
+        Gets the state of the Active Directory recycle bin.
+
+    .PARAMETER ForestFQDN
+        The fully qualified domain name (FQDN) of the forest in which to change the Recycle Bin feature.
+
+    .PARAMETER EnterpriseAdministratorCredential
+        The user account credentials to use to perform this task.
+
+#>
 function Get-TargetResource
 {
     [CmdletBinding()]
@@ -71,9 +82,20 @@ function Get-TargetResource
     }
 }
 
+<#
+    .SYNOPSIS
+        Sets the state of the Active Directory recycle bin.
+
+    .PARAMETER ForestFQDN
+        The fully qualified domain name (FQDN) of the forest in which to change the Recycle Bin feature.
+
+    .PARAMETER EnterpriseAdministratorCredential
+        The user account credentials to use to perform this task.
+
+#>
 function Set-TargetResource
 {
-    [CmdletBinding(SupportsShouldProcess = $true)]
+    [CmdletBinding()]
     param
     (
         [Parameter(Mandatory = $true)]
@@ -100,15 +122,12 @@ function Set-TargetResource
             throw ($script:localizedData.ForestFunctionalLevelError -f $forest.ForestMode)
         }
 
-        if ($PSCmdlet.ShouldProcess($forest.RootDomain, "Enable Active Directory Recycle Bin"))
-        {
-            Write-Verbose -Message $script:localizedData.EnablingRecycleBin
+        Write-Verbose -Message ($script:localizedData.EnablingRecycleBin -f $forest.RootDomain)
 
-            Enable-ADOptionalFeature 'Recycle Bin Feature' -Scope ForestOrConfigurationSet `
-                -Target $forest.RootDomain -Server $forest.DomainNamingMaster `
-                -Credential $EnterpriseAdministratorCredential `
-                -Verbose
-        }
+        Enable-ADOptionalFeature 'Recycle Bin Feature' -Scope ForestOrConfigurationSet `
+            -Target $forest.RootDomain -Server $forest.DomainNamingMaster `
+            -Credential $EnterpriseAdministratorCredential `
+            -Verbose
     }
     catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException], [Microsoft.ActiveDirectory.Management.ADServerDownException]
     {
@@ -131,6 +150,17 @@ function Set-TargetResource
     }
 }
 
+<#
+    .SYNOPSIS
+        Tests the state the Active Directory recycle bin.
+
+    .PARAMETER ForestFQDN
+        The fully qualified domain name (FQDN) of the forest in which to change the Recycle Bin feature.
+
+    .PARAMETER EnterpriseAdministratorCredential
+        The user account credentials to use to perform this task.
+
+#>
 function Test-TargetResource
 {
     [CmdletBinding()]
